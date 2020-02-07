@@ -21,7 +21,7 @@ class MixpanelCollectorTests: XCTestCase {
     
     func testEventSubmission() {
         _ = expectation(description: "wait for request")
-        try! MixpanelCollector.shared.postEvent(MixpanelEvent(event: "test",
+        try! MixpanelCollector.shared.postEvent(MixpanelEvent("test",
                                                               properties: ["distinct_id": "banana",
                                                                                           "name": "cake"]))
         

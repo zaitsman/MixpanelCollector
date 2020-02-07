@@ -16,4 +16,16 @@ public struct MixpanelEvent {
      If this is specified, then the event is seen as have happened at that time.
      */
     public var time: TimeInterval?
+    
+    public init(_ event: String, properties: [String: Encodable]) {
+        self.event = event
+        self.properties = properties
+        self.time = nil
+    }
+    
+    public init(_ event: String, properties: [String: Encodable], time: TimeInterval) {
+        self.event = event
+        self.properties = properties
+        self.time = time
+    }
 }
