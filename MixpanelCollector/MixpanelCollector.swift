@@ -16,7 +16,6 @@ public class MixpanelCollector {
     fileprivate var distinct_Id: String?
     
     fileprivate init() {
-        
     }
     
     @discardableResult
@@ -38,6 +37,11 @@ public class MixpanelCollector {
     }
     
     public func postEvent(_ event: MixpanelEvent) throws {
+        try self.postEvent(event) { (_, _, _) in
+        }
+    }
+    
+    public func postEvent(_ event: MixpanelEvent, _ completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) throws {
         guard let tok = self.token else {
             throw MixpanelCollectorError.notInitializedWithToken
         }
@@ -72,10 +76,7 @@ public class MixpanelCollector {
                     var request = URLRequest(url: requestUrl, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: TimeInterval(30))
                     request.httpMethod = "GET"
                     
-                    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                        guard let data = data else { return }
-                        print(String(data: data, encoding: .utf8)!)
-                    }
+                    let task = URLSession.shared.dataTask(with: request, completionHandler: completionHandler)
                     
                     task.resume()
                 } else {
